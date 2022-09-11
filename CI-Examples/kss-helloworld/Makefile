@@ -1,6 +1,6 @@
 GRAMINEDIR ?= ../..
 
-CFLAGS = -Wall -Wextra -I$(GRAMINEDIR)
+CFLAGS = -Wall -Wextra -I$(GRAMINEDIR)/pal/src/host/linux-sgx
 
 ifeq ($(DEBUG),1)
 GRAMINE_LOG_LEVEL = debug
