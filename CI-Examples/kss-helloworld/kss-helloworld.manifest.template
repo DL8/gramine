@@ -14,6 +14,8 @@ fs.mounts = [
 sgx.debug = true
 sgx.nonpie_binary = true
 
+sgx.remote_attestation = "{{ ra_type }}"
+
 sgx.kss = true
 sgx.isvprodid = 5
 sgx.isvsvn = 2

@@ -1,4 +1,5 @@
 GRAMINEDIR ?= ../..
+RA_TYPE ?= dcap
 
 CFLAGS = -Wall -Wextra -I$(GRAMINEDIR)/pal/src/host/linux-sgx
 
@@ -23,6 +24,7 @@ kss-helloworld.o: kss-helloworld.c
 kss-helloworld.manifest: kss-helloworld.manifest.template
 	gramine-manifest \
 		-Dlog_level=$(GRAMINE_LOG_LEVEL) \
+		-Dra_type=$(RA_TYPE) \
 		$< $@
 
 # gramine-sgx-sign generates both a .sig file and a .manifest.sgx file. This is somewhat
