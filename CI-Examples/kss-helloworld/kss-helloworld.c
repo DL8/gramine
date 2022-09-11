@@ -17,18 +17,34 @@ static void blob2hex(const void *input, size_t len, char *output) {
 
 int main(void) {
     char print_buffer[MAX_DIGITS];
+    FILE *attestation_type_fd = NULL;
     FILE *report_fd = NULL;
     sgx_report_t report;
+
+    attestation_type_fd = fopen("/dev/attestation/attestation_type", "rb");
+    if(attestation_type_fd == NULL) {
+	    fprintf(stderr, "Failed to open attestation type handle\n");
+	    return 1;
+    }
+    if(fread(print_buffer, 1, sizeof(print_buffer), attestation_type_fd) < 0) {
+	    fprintf(stderr, "Failed to read attestation type\n");
+	    return 2;
+    }
+    if(strcmp(print_buffer, "none") == 0) {
+	    fprintf(stderr, "Must be built with remote attestation\n");
+	    return 3;
+    }
+    fclose(attestation_type_fd);
 
     // We only care about this enclave's attributes, so we omit report data and target info
     report_fd = fopen("/dev/attestation/report", "rb");
     if(report_fd == NULL) {
         fprintf(stderr, "Failed to open report handle\n");
-        return 1;
+        return 4;
     }
     if(fread(&report, sizeof(report), 1, report_fd) <= 0) {
         fprintf(stderr, "Failed to read report\n");
-        return 2;
+        return 5;
     }
     fclose(report_fd);
     printf("Hello, world\n");
