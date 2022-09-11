@@ -177,6 +177,7 @@ int create_enclave(sgx_arch_secs_t* secs, sgx_arch_token_t* token) {
 
     secs->attributes.flags |= SGX_FLAGS_INITIALIZED;
 
+#define BYTES2HEX(bytes) (bytes2hex(bytes, sizeof(bytes), hex, sizeof(hex)))
     log_debug("Enclave created:");
     log_debug("    base:           0x%016lx", secs->base);
     log_debug("    size:           0x%016lx", secs->size);
@@ -186,6 +187,9 @@ int create_enclave(sgx_arch_secs_t* secs, sgx_arch_token_t* token) {
     log_debug("    ssa_frame_size: %d",       secs->ssa_frame_size);
     log_debug("    isv_prod_id:    0x%08x",   secs->isv_prod_id);
     log_debug("    isv_svn:        0x%08x",   secs->isv_svn);
+    log_debug("  isv_ext_prod_id: %s", BYTES2HEX(secs->isv_ext_prod_id));
+    log_debug("  isv_family_id: %s",   BYTES2HEX(secs->isv_family_id));
+#undef BYTES2HEX
 
     /* Linux v5.16 introduced support for Intel AMX feature. Any process must opt-in for AMX
      * by issuing an AMX-permission request. More technically, together with AMX, Intel introduced
